@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interaktive Falllösung</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f1f1f1;
+    }
+
+    #container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    #paragraph {
+      font-size: 18px;
+      margin-bottom: 20px;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+
+    #teacher {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 20px;
+      background-color: #fff;
+    }
+
+    #search {
+      margin-bottom: 20px;
+    }
+
+    #searchInput {
+      width: calc(100% - 20px); /* Breite der Suchleiste abzüglich des gewünschten Paddings */
+      padding: 10px;
+      font-size: 16px;
+      margin-right: 20px; /* Fügt ein rechtes Padding hinzu */
+      box-sizing: border-box; /* Behält das Gesamtbreitenberechnungsmodell bei */
+    }
+
+    #modules {
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #fff;
+    }
+
+    .module {
+      margin-bottom: 10px;
+      padding: 10px;
+      cursor: pointer;
+      background-color: #f9f9f9;
+    }
+
+    .module:hover {
+      background-color: #ebebeb;
+    }
+
+    h2 {
+      font-size: 20px;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      font-size: 18px;
+      margin-top: 0;
+      margin-bottom: 5px;
+    }
+
+    p {
+      margin-top: 0;
+    }
+    #modules {
+      border: 1px solid #ccc;
+      padding: 20px;
+      background-color: #fff;
+      height: 400px; /* Beispielhöhe, anpassen Sie es nach Bedarf */
+      overflow-y: auto; /* Zeigt einen vertikalen Scrollbalken, wenn der Inhalt über die Höhe hinausgeht */
+    }
+
+  </style>
+</head>
+<body>
+  <div id="container">
+    <h1>Du Land der Bayern</h1>
+    <div id="paragraph">
+      <p>Studentin Angela (A) aus der Uckermark möchte ihre am Samstag anstehende Geburtstags-party mit ihren neuen Münchner Kommilitonen so richtig zelebrieren und kauft dafür ein. Eine halbe Stunde vor Beginn der Party um 19:30 Uhr fällt ihr jedoch mit Entsetzen auf, dass sie im Eifer des Gefechts die Snacks vergessen hat. Nachdem sie mit den Ladenschlusszeiten in Bayern um 20:00 Uhr bereits schmerzlich Bekanntschaft machen musste, eilt sie in den nahegelegenen Kiosk von Bärbock (B). Die Waren befinden sich in einem Regal hinter B. Die jeweiligen Preise stehen auf kleinen Schildchen, die an den Regalböden unter der jeweiligen Ware angebracht sind. A sagt zu B: „Eine Tüte Chips, bitte“. B streckt A eine Tüte Chips entgegen und sagt: „2,50 Euro, bitte“. A nimmt die Chipstüte, gibt B eine 2-Euro-Münze und eine 50-Cent-Münze und verlässt das Geschäft. Sie schafft es gerade noch rechtzeitig vor ihren Gästen nach Hause und ihre Feier wird ein voller Erfolg.
+        <br><br><strong>Frage 1: Kann A von B Übergabe und Übereignung der Tüte Chips verlangen?</strong></p>
+    </div>
+
+    <div id="teacher">
+      <h4>A kann von B Übergabe und Übereignung der Tüte Chips verlangen, wenn sie gegen B einen darauf gerichteten Anspruch hat.</h4>
+    </div>
+
+    <div id="search">
+      <input type="text" id="searchInput" placeholder="Module suchen...">
+    </div>
+
+    <div id="modules"></div>
+  </div>
+
+  <script src="modules.js"></script>
+  <script src="main.js"></script>
+
+</body>
+</html>
