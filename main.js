@@ -7,6 +7,38 @@ var order = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id:
 // Leeres DIV auswählen, in dem die Module hinzugefügt werden sollen
 var teacherDiv = document.getElementById("teacher");
 
+// Funktion zum Vorschlagen des nächsten Moduls
+function suggestNextModule() {
+  if (order.length > 0) {
+    var nextModuleId = order[0].id;
+    var nextModuleData = getModuleContent(nextModuleId);
+
+    var moduleContainer = document.createElement("div");
+    moduleContainer.className = "module-container";
+
+    var moduleTitle = document.createElement("h4");
+    moduleTitle.innerHTML = "<strong>" + nextModuleData.title + "</strong>";
+
+    var moduleContent = document.createElement("p");
+    moduleContent.innerHTML = nextModuleData.content;
+
+    moduleContainer.appendChild(moduleTitle);
+    moduleContainer.appendChild(moduleContent);
+
+    var nextModuleContainer = document.getElementById("nextModuleContainer");
+    nextModuleContainer.innerHTML = "";
+    nextModuleContainer.appendChild(moduleContainer);
+  } else {
+    var nextModuleContainer = document.getElementById("nextModuleContainer");
+    nextModuleContainer.textContent = "Kein weiteres Modul verfügbar";
+  }
+}
+// Event-Listener für den Button hinzufügen
+nextModuleButton.addEventListener("click", suggestNextModule);
+
+// Array zum Speichern der ausgewählten Module
+var selectedModules = [];
+
 // Funktion zum Rendern der Module
 function renderModules() {
   // Module-DIV leeren
@@ -28,11 +60,28 @@ function renderModules() {
     moduleDiv.addEventListener("click", function () {
       // Überprüfe, ob das angeklickte Modul mit dem nächsten Modul in der Reihenfolge übereinstimmt
       if (module.id === order[0].id) {
-        // Hole den Inhalt des Moduls basierend auf dem aktuellen Fall
-        var content = getModuleContent(module.id);
+        // Hole den Titel und den Inhalt des Moduls basierend auf dem aktuellen Fall
+        var moduleData = getModuleContent(module.id);
+
+        // Speichere das Modul, den Titel und den Inhalt im ausgewählten Modul-Array
+        selectedModules.push({
+          module: module,
+          title: moduleData.title,
+          content: moduleData.content
+        });
 
         // Füge den Inhalt des Moduls dem leeren DIV hinzu
-        teacherDiv.innerHTML += content;
+        teacherDiv.innerHTML = "";
+        selectedModules.forEach(function (selectedModule) {
+          var moduleTitle = document.createElement("h4");
+          moduleTitle.innerHTML = "<strong>" + selectedModule.title + "</strong>";
+
+          var moduleContent = document.createElement("p");
+          moduleContent.innerHTML = selectedModule.content;
+
+          teacherDiv.appendChild(moduleTitle);
+          teacherDiv.appendChild(moduleContent);
+        });
 
         // Entferne das erste Element aus dem order-Array
         order.shift();
@@ -67,40 +116,76 @@ function getModuleContent(moduleId) {
   switch (moduleId) {
     case 1:
       // Inhalt für Modul 1 basierend auf dem aktuellen Fall
-      return "<h4>A. Anspruch entstanden</h4>Der Anspruch aus § 433 I 1 BGB müsste zunächst entstanden sein.";
+      return {
+        title: "A. Anspruch entstanden",
+        content: "Der Anspruch aus § 433 I 1 BGB müsste zunächst entstanden sein."
+      };
     case 2:
       // Inhalt für Modul 2 basierend auf dem aktuellen Fall
-      return "<h4>I. Einigung</h4>A und B müssten einen Kaufvertrag geschlossen haben. Dies setzt zwei übereinstimmende Willenserklärungen, namentlich Antrag (§ 145 BGB) und Annahme (§ 147 BGB), voraus.";
+      return {
+        title: "I. Einigung",
+        content: "A und B müssten einen Kaufvertrag geschlossen haben. Dies setzt zwei übereinstimmende Willenserklärungen, namentlich Antrag (§ 145 BGB) und Annahme (§ 147 BGB), voraus."
+      };
     case 3:
       // Inhalt für Modul 3 basierend auf dem aktuellen Fall
-      return "<h4>1. Antrag</h4>Der Antrag könnte durch A erfolgt sein (§ 145 BGB), indem sie gegenüber B geäußert hat: „Eine Tüte Chips, bitte.“ Fraglich ist, ob die Erklärung auch eine Angabe zum Kaufpreis beinhaltet. Eine ausdrückliche Angabe zum Kaufpreis enthält die Äußerung nicht. Jedoch könnte sich eine solche konkludent, d.h. durch schlüssiges Verhalten, aus den Umständen der Äußerung ergeben. Die Tüte Chips hat einen Verkaufspreis von 2,50€, der im Kiosk dank eines Schildchens vor dem Fach des Regals, in dem sich die Chips befanden, zu sehen war. Darauf hat A nach den Umständen ihrer Äußerung Bezug genommen. Damit ist der Kaufpreis objektiv für jedermann erkennbar und damit bestimmbar. Ein wirksamer Antrag liegt vor.";
+      return {
+        title: "1. Antrag",
+        content: "Der Antrag könnte durch A erfolgt sein (§ 145 BGB), indem sie gegenüber B geäußert hat: „Eine Tüte Chips, bitte.“ Fraglich ist, ob die Erklärung auch eine Angabe zum Kaufpreis beinhaltet. Eine ausdrückliche Angabe zum Kaufpreis enthält die Äußerung nicht. Jedoch könnte sich eine solche konkludent, d.h. durch schlüssiges Verhalten, aus den Umständen der Äußerung ergeben. Die Tüte Chips hat einen Verkaufspreis von 2,50€, der im Kiosk dank eines Schildchens vor dem Fach des Regals, in dem sich die Chips befanden, zu sehen war. Darauf hat A nach den Umständen ihrer Äußerung Bezug genommen. Damit ist der Kaufpreis objektiv für jedermann erkennbar und damit bestimmbar. Ein wirksamer Antrag liegt vor."
+      };
     case 4:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>2. Annahme</h4>Indem B „2,50 Euro, bitte“ sagt, erklärt er zwar nicht ausdrücklich, aber aus Sicht eines objektiven Drittens in der Position des Empfängers konkludent sein vorbehaltloses Einverständnis mit dem Antrag der A. Eine wirksame Annahme durch B liegt somit vor.";
+        return {
+          title: "2. Annahme",
+          content: "Indem B „2,50 Euro, bitte“ sagt, erklärt er zwar nicht ausdrücklich, aber aus Sicht eines objektiven Drittens in der Position des Empfängers konkludent sein vorbehaltloses Einverständnis mit dem Antrag der A. Eine wirksame Annahme durch B liegt somit vor."
+        };
     case 5:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>II. Wirksamkeitshindernisse</h4>Dem Kaufvertrag stehen keine Wirksamkeitshindernisse (= rechtshindernde Einwendungen) entgegen.";
+        return {
+          title: "II. Wirksamkeitshindernisse",
+          content: "Dem Kaufvertrag stehen keine Wirksamkeitshindernisse (= rechtshindernde Einwendungen) entgegen."
+        };
     case 6:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>B. Anspruch erloschen</h4>Vorliegend könnte der Anspruch durch Erfüllung gem. § 362 I BGB erloschen sein.";
+        return {
+          title: "B. Anspruch erloschen",
+          content: "Vorliegend könnte der Anspruch durch Erfüllung gem. § 362 I BGB erloschen sein."
+        };
     case 7:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>I. Bewirken der geschuldeten Leistung</h4>Die geschuldete Leistung müsste bewirkt worden sein. B schuldet A gem. § 433 I 1 BGB Übergabe und Übereignung der Tüte Chips.";
+        return {
+          title: "I. Bewirken der geschuldeten Leistung",
+          content: "Die geschuldete Leistung müsste bewirkt worden sein. B schuldet A gem. § 433 I 1 BGB Übergabe und Übereignung der Tüte Chips."
+        };
     case 8:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>1. Übereignung</h4>Hier kommt eine Übereignung nach § 929 S. 1 BGB in Betracht.Inhalt für Modul 8 im aktuellen Fall";
+        return {
+          title: "1. Übereignung",
+          content: "Hier kommt eine Übereignung nach § 929 S. 1 BGB in Betracht.Inhalt für Modul 8 im aktuellen Fall"
+        };
     case 9:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>a. dingliche Einigung</h4>Eine dingliche Einigung besteht aus zwei übereinstimmenden und wirksamen Willenserklärungen, namentlich Antrag (§ 145 BGB) und Annahme (§ 147 BGB). Inhalt der dinglichen Einigung ist, dass A Eigentümerin der Tüte Chips werden soll. Indem B der A die Chipstüte entgegenstreckt und A die Chipstüte entgegennimmt, haben sich A und B konkludent darauf geeinigt, dass das Eigentum daran auf A übergehen soll.";
+        return {
+          title: "a. dingliche Einigung",
+          content: "Eine dingliche Einigung besteht aus zwei übereinstimmenden und wirksamen Willenserklärungen, namentlich Antrag (§ 145 BGB) und Annahme (§ 147 BGB). Inhalt der dinglichen Einigung ist, dass A Eigentümerin der Tüte Chips werden soll. Indem B der A die Chipstüte entgegenstreckt und A die Chipstüte entgegennimmt, haben sich A und B konkludent darauf geeinigt, dass das Eigentum daran auf A übergehen soll."
+        };
     case 10:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>b. Übergabe</h4>Die Chipstüte ist eine bewegliche Sache. Eine Übergabe setzt voraus, dass B den Besitz an der Chipstüte vollständig aufgibt und A den Besitz (§ 854 BGB) auf Veranlassung des B erworben hat. B hat A die Tüte Chips gegeben und ihr so den unmittelbaren Besitz nach § 854 I BGB verschafft. Eine Übergabe ist erfolgt.";
+        return {
+          title: "b. Übergabe",
+          content: "Die Chipstüte ist eine bewegliche Sache. Eine Übergabe setzt voraus, dass B den Besitz an der Chipstüte vollständig aufgibt und A den Besitz (§ 854 BGB) auf Veranlassung des B erworben hat. B hat A die Tüte Chips gegeben und ihr so den unmittelbaren Besitz nach § 854 I BGB verschafft. Eine Übergabe ist erfolgt."
+        };
     case 11:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>c. Verfügungsbefugnis</h4>Verfügungsbefugt ist insbesondere der in seiner Verfügungsmacht unbeschränkte Eigentümer. Da nach § 1006 I 1 BGB jedenfalls vermutet wird, dass Besitzer B auch Eigentümer der Tüte Chips ist, ist er somit zur Verfügung befugt.";
+        return {
+          title: "c. Verfügungsbefugnis",
+          content: "Verfügungsbefugt ist insbesondere der in seiner Verfügungsmacht unbeschränkte Eigentümer. Da nach § 1006 I 1 BGB jedenfalls vermutet wird, dass Besitzer B auch Eigentümer der Tüte Chips ist, ist er somit zur Verfügung befugt."
+        };
     case 12:
         // Inhalt für Modul 4 basierend auf dem aktuellen Fall
-        return "<h4>C. Anspruch durchsetzbar</h4>Da der Anspruch erloschen ist, kommt es auf die Durchsetzbarkeit und etwaige Einreden nicht an.";     
+        return {
+          title: "C. Anspruch durchsetzbar",
+          content: "Da der Anspruch erloschen ist, kommt es auf die Durchsetzbarkeit und etwaige Einreden nicht an."
+        };   
         // Weitere Module hier hinzufügen
     default:
       return "";
