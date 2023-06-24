@@ -1,5 +1,11 @@
+
 // Modules-DIV auswählen
 var modulesDiv = document.getElementById("modules");
+
+// Array, das die Reihenfolge der Module enthält
+var order = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}, {id: 11}, {id: 12}];
+// Leeres DIV auswählen, in dem die Module hinzugefügt werden sollen
+var teacherDiv = document.getElementById("teacher");
 
 // Funktion zum Rendern der Module
 function renderModules() {
@@ -8,31 +14,45 @@ function renderModules() {
 
   // Durchsuche die Module und rendere passende Ergebnisse
   var searchText = searchInput.value.toLowerCase();
-  var filteredModules = modules.filter(function(module) {
+  var filteredModules = modules.filter(function (module) {
     return module.title.toLowerCase().includes(searchText);
   });
 
   // Rendere jedes gefilterte Modul
-  filteredModules.forEach(function(module) {
+  filteredModules.forEach(function (module) {
     var moduleDiv = document.createElement("div");
     moduleDiv.className = "module";
     moduleDiv.innerHTML = "<h3>" + module.title + "</h3>";
 
     // Klick-Event für jedes Modul hinzufügen
-    moduleDiv.addEventListener("click", function() {
-      // Hole den Inhalt des Moduls basierend auf dem aktuellen Fall
-      var content = getModuleContent(module.id);
+    moduleDiv.addEventListener("click", function () {
+      // Überprüfe, ob das angeklickte Modul mit dem nächsten Modul in der Reihenfolge übereinstimmt
+      if (module.id === order[0].id) {
+        // Hole den Inhalt des Moduls basierend auf dem aktuellen Fall
+        var content = getModuleContent(module.id);
 
-      // Verschiebe den Inhalt des Moduls nach oben unter den Paragraphen
-      document.getElementById("teacher").innerHTML += content;
+        // Füge den Inhalt des Moduls dem leeren DIV hinzu
+        teacherDiv.innerHTML += content;
 
-      // Entferne das Modul aus der Liste
-      modules = modules.filter(function(m) {
-        return m.id !== module.id;
-      });
+        // Entferne das erste Element aus dem order-Array
+        order.shift();
 
-      // Rendere die Module erneut
-      renderModules();
+        // Entferne das Modul aus der Liste
+        modules = modules.filter(function (m) {
+          return m.id !== module.id;
+        });
+
+        // Rendere die Module erneut
+        renderModules();
+      } else {
+        // Füge die CSS-Klassen "shake" und "highlight" hinzu, um die Animationen auszulösen
+        moduleDiv.classList.add("shake");
+
+        // Entferne die CSS-Klassen nach einer kurzen Verzögerung, um die Animationen abzuschließen
+        setTimeout(function () {
+          moduleDiv.classList.remove("shake");
+        }, 1000);
+      }
     });
 
     // Füge das Modul dem Modules-DIV hinzu
@@ -92,3 +112,4 @@ searchInput.addEventListener("input", renderModules);
 
 // Rendere die Module beim Laden der Seite
 renderModules();
+
