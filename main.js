@@ -3,7 +3,7 @@
 var modulesDiv = document.getElementById("modules");
 
 // Array, das die Reihenfolge der Module enthält
-var order = [{id: 1}, {id: 2}, {id: 3}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}, {id: 11}, {id: 12}];
+var order = [{id: 1}, {id: 2}, {id: 3}, {id: 13}, {id: 4}, {id: 5}, {id: 6}, {id: 7}, {id: 8}, {id: 9}, {id: 10}, {id: 11}, {id: 12}];
 // Leeres DIV auswählen, in dem die Module hinzugefügt werden sollen
 var teacherDiv = document.getElementById("teacher");
 
@@ -55,6 +55,11 @@ function renderModules() {
     var moduleDiv = document.createElement("div");
     moduleDiv.className = "module";
     moduleDiv.innerHTML = "<h3>" + module.title + "</h3>";
+
+    // Überprüfe, ob das Modul eine rote Hintergrundfarbe haben soll
+    if (module.shouldHaveRedBackground) {
+      moduleDiv.classList.add("red-background");
+    }
 
     // Klick-Event für jedes Modul hinzufügen
     moduleDiv.addEventListener("click", function () {
@@ -186,6 +191,12 @@ function getModuleContent(moduleId) {
           title: "C. Anspruch durchsetzbar",
           content: "Da der Anspruch erloschen ist, kommt es auf die Durchsetzbarkeit und etwaige Einreden nicht an."
         };   
+    case 13:
+    // Inhalt für Modul 4 basierend auf dem aktuellen Fall
+        return {
+          title: "Essentialia negotii",
+          content: "Fraglich, ob KP, bla bla bla."
+        };   
         // Weitere Module hier hinzufügen
     default:
       return "";
@@ -197,4 +208,3 @@ searchInput.addEventListener("input", renderModules);
 
 // Rendere die Module beim Laden der Seite
 renderModules();
-

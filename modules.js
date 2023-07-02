@@ -12,5 +12,6 @@ var modules = [
     { id: 10, title: "Übergabe einer beweglichen Sache", content: "" },
     { id: 11, title: "Verfügungsbefugnis", content: "" },
     { id: 12, title: "Anspruch durchsetzbar", content: "" },
+    { id: 13, title: "Essentialia negotii durch Auslegung ermittlen", content: "", shouldHaveRedBackground: true}
     // Weitere Module hier hinzufügen
   ];
